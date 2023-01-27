@@ -1,0 +1,49 @@
+div.main-grid {
+  display: grid;
+  grid-template-columns: 1 100px;
+  align-items: center;
+  background-color: rgba(197, 195, 195, 0.486);
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 400px;
+  min-width: 400px;
+  position: relative;
+}
+
+.todo-bar ,.date-picker{
+    border-radius: 4px;
+    border-style: solid;
+    border-color: rgb(182, 182, 182);
+    border-width: 1px ;
+    margin: 4px;
+    font-family: monospace;
+    text-align: center;
+    max-width: 300px;
+    min-width: 200px;
+}
+
+.add-button {
+  width: 320px;
+  max-width: 300px;
+  min-width: 200px;
+}
+
+button {
+  background-color: rgb(255, 255, 255);
+  font-family: monospace;
+  border-radius: 6px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  transition: box-shadow 0.2s, opacity 0.15s;
+  color: rgb(27, 27, 27);
+}
+button:hover {
+  box-shadow: 1px 1px 4px rgb(80, 79, 79);
+}
+button:active {
+  opacity: 0.6;
+}

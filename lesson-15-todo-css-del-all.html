@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do App</title>
+    <link rel="stylesheet" href="lesson-15-todo-css.css" />
+  </head>
+  <body style="font-family: monospace">
+    <div class="main-grid">
+      <input
+        class="todo-bar"
+        id="todo-title"
+        type="text"
+        placeholder="Type your tasks here"
+      />
+      <input class="date-picker" id="date-picker" type="date" />
+
+      <button onclick="addToDo()" class="button">Add To Do</button>
+      <div id="todo-list"></div>
+      <button onclick="deleteAllTodo()" class="button" id="deleteAllButton">
+        Delete All Tasks
+      </button>
+    </div>
+    <script>
+      ////////////////////MODEL SECTION///////////////////////
+
+      let todos;
+      //if local storage has a todos array, then use it.
+      const savedTodos = JSON.parse(localStorage.getItem("todos"));
+      if (Array.isArray(savedTodos)) {
+        todos = savedTodos;
+        render();
+      } else {
+        todos = [];
+      }
+
+      //Code that creates a todo
+      function createTodo(title, dueDate) {
+        const id = "" + new Date().getTime(); // gets the current time in ms. trick it into being a string with ''
+        todos.push({ title: title, dueDate: dueDate, id: id }); //pushes new instance of object to the array
+        saveTodos();
+      }
+      //Code that deletes a todo
+      //makes a copy, so need to reasign the array
+      function removeTodo(idToDelete) {
+        todos = todos.filter(function (todo) {
+          if (todo.id === idToDelete) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        saveTodos();
+      }
+
+      function saveTodos() {
+        localStorage.setItem("todos", JSON.stringify(todos));
+      }
+
+      ///////////////////CONTROLLER SECTION///////////////////
+      function addToDo() {
+        const textbox = document.getElementById("todo-title");
+        let title = textbox.value;
+        const datePicker = document.getElementById("date-picker"); //grabs the date-picker from the
+        const dueDate = datePicker.value; //store the dute date in a variable
+
+        //if the title is blank, do not create a todo
+        if (title !== "" && dueDate !== "") {
+          createTodo(title, dueDate);
+        }
+        render();
+      }
+
+      //this function clears a single tasks
+      function deleteToDo(event) {
+        const deleteButton = event.target;
+        const idToDelete = deleteButton.id;
+        removeTodo(idToDelete);
+        render();
+      }
+
+      //This function clears all tasks
+      function deleteAllTodo() {
+        todos.forEach((element) => {
+          removeTodo(element.id);
+        });
+        render();
+      }
+
+      ////////////////////VIEW SECTION/////////////////////////
+      function render() {
+        //reset out list
+        document.getElementById("todo-list").innerHTML = "";
+
+        //re draw, and append to the end of the list
+        todos.forEach(function (todo) {
+          let element = document.createElement("div");
+          element.innerText = todo.title + " " + todo.dueDate;
+
+          const deleteButton = document.createElement("button");
+          deleteButton.innerText = "Delete";
+          deleteButton.style = "margin-left: 12px";
+          deleteButton.onclick = deleteToDo;
+          deleteButton.id = todo.id;
+          element.appendChild(deleteButton);
+
+          let todoList = document.getElementById("todo-list");
+          todoList.appendChild(element);
+        });
+
+        const deleteAllButton = document.getElementById("deleteAllButton");
+        if (todos.length <= 1) {
+          deleteAllButton.hidden = true;
+          deleteAllButton.disabled = true;
+        } else {
+          deleteAllButton.hidden = false;
+          deleteAllButton.disabled = false;
+        }
+      }
+    </script>
+  </body>
+</html>

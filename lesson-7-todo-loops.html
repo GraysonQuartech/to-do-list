@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Todo App</title>
+  </head>
+  <body>
+    <button>Press Me</button>
+    <script>
+      let todos = ["get groceries", "wash car", "make dinner"];
+
+      todos.forEach(function (todoTitle) {
+        let element = document.createElement("div");
+        element.innerText = todoTitle;
+        document.body.appendChild(element);
+      });
+    </script>
+  </body>
+</html>
